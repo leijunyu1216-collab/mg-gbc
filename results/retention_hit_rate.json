@@ -1,0 +1,28 @@
+{
+  "k": 10,
+  "by_source": {
+    "CIC-IDS2018": {
+      "blocks_with_a_rare_class": 69,
+      "median_rare_points": 7.0,
+      "median_masked_balls": 3.0,
+      "share_blocks_with_no_masked_ball": 0.0,
+      "median_rare_recall_of_rescued": 0.0,
+      "share_blocks_rescuing_any_rare_point": 0.17391304347826086,
+      "median_purity_of_masked": 0.0,
+      "median_density_z_masked": 1.2376405549394902,
+      "median_density_z_all": 0.0
+    },
+    "UNSW-NB15": {
+      "blocks_with_a_rare_class": 20,
+      "median_rare_points": 113.0,
+      "median_masked_balls": 5.5,
+      "share_blocks_with_no_masked_ball": 0.0,
+      "median_rare_recall_of_rescued": 0.1272100689241834,
+      "share_blocks_rescuing_any_rare_point": 0.8,
+      "median_purity_of_masked": 0.12521008403361344,
+      "median_density_z_masked": 2.6229143033431974,
+      "median_density_z_all": 0.0
+    }
+  },
+  "reading": "rare_recall_of_rescued is the share of a block's rare-class points that sit inside a retained ball. It bounds the recall change the correction can produce on that block: the edit cannot move points it does not keep."
+}

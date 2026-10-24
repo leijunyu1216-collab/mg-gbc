@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite the accompanying paper."
+title: "MG-GBC: multi-granularity granular-ball clustering"
+abstract: "Reference implementation of a scale-free correction to the size truncation used by granular-ball clustering pipelines."
+type: software
+version: 1.0.0
+date-released: 2026-10-24
+license: MIT
+repository-code: "https://github.com/leijunyu1216-collab/mg-gbc"
+authors:
+  - family-names: Lei
+    given-names: Junyu
+    orcid: "https://orcid.org/0009-0009-8008-3865"
+    email: 20251001569@cug.edu.cn
+    affiliation: "School of Computer Science, China University of Geosciences, Wuhan, China"
+keywords:
+  - granular-ball computing
+  - clustering
+  - rare cluster
+  - class imbalance
+  - signed graph editing
+preferred-citation:
+  type: article
+  title: "Preserving rare cores in granular-ball clustering: a scale-free correction to the size truncation"
+  authors:
+    - family-names: Lei
+      given-names: Junyu
+  year: 2026

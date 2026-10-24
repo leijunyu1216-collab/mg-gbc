@@ -1,0 +1,20 @@
+{
+  "blocks": 40,
+  "median_dARI": -0.0013041884989300001,
+  "ARI_CI95": [
+    -0.00556318342724395,
+    0.00350005789766
+  ],
+  "ARI_wins": 19,
+  "ARI_losses": 21,
+  "median_dACC": -0.00809999999999995,
+  "median_dManyToOneACC": 0.0043,
+  "median_dRareRecall": 0.02941039981480485,
+  "rare_wins": 25,
+  "rare_ties": 8,
+  "rare_losses": 7,
+  "rare_sign_p": 0.0021024015732109547,
+  "ARI_sign_p": 0.8746293123804207,
+  "rare_wilcoxon_p": 0.00030640000477433205,
+  "ARI_wilcoxon_p": 0.6463036218483467
+}

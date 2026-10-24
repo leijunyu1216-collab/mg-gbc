@@ -1,0 +1,50 @@
+[
+  {
+    "dataset": "Synthetic-Imbalance",
+    "ARP_mean_ari": 0.7175064491860415,
+    "ARP_sd_ari": 0.18606089813414695,
+    "MG_mean_ari": 0.6722023797246139,
+    "MG_sd_ari": 0.22159087405232278,
+    "ARP_mean_rrec": 0.0,
+    "ARP_sd_rrec": 0.0,
+    "MG_mean_rrec": 0.8,
+    "MG_sd_rrec": 0.4,
+    "wins": 4,
+    "ties": 0,
+    "losses": 6,
+    "median_delta_ari": -0.04943895929725517,
+    "wilcoxon_p": 0.75390625
+  },
+  {
+    "dataset": "Synthetic-SplitRare",
+    "ARP_mean_ari": 0.02756756207292499,
+    "ARP_sd_ari": 0.11024421580636436,
+    "MG_mean_ari": 0.7062932851956748,
+    "MG_sd_ari": 0.3186988061361596,
+    "ARP_mean_rrec": NaN,
+    "ARP_sd_rrec": NaN,
+    "MG_mean_rrec": NaN,
+    "MG_sd_rrec": NaN,
+    "wins": 9,
+    "ties": 1,
+    "losses": 0,
+    "median_delta_ari": 0.8369711866294989,
+    "wilcoxon_p": 0.001953125
+  },
+  {
+    "dataset": "Digits-Rare",
+    "ARP_mean_ari": 0.04641263472998109,
+    "ARP_sd_ari": 0.13923790418994325,
+    "MG_mean_ari": 0.807733855406763,
+    "MG_sd_ari": 0.17919628644749405,
+    "ARP_mean_rrec": 0.05,
+    "ARP_sd_rrec": 0.15000000000000002,
+    "MG_mean_rrec": 0.6000000000000001,
+    "MG_sd_rrec": 0.18085445345175588,
+    "wins": 10,
+    "ties": 0,
+    "losses": 0,
+    "median_delta_ari": 0.8847691551974186,
+    "wilcoxon_p": 0.0009765625
+  }
+]

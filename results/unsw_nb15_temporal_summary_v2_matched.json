@@ -1,0 +1,78 @@
+{
+  "protocol_id": "UNSW-NB15-TEMPORAL-20260827-v2",
+  "protocol_sha256": "D633856044A72B67846386772AE27B08FF37FE935E54751653F999DCEE1840D0",
+  "generated_at": "2026-10-22T09:25:19.087843+00:00",
+  "mg_gbc_params": {
+    "rare_density_z": 0.5,
+    "rationale": "Unchanged from v1 so that v2 isolates the sampling-protocol change."
+  },
+  "methods": {
+    "ARP-GB": {
+      "blocks": 20,
+      "informative_blocks": 20,
+      "median_ARI_informative": 0.15993271384623142,
+      "median_NMI_informative": 0.32801536277217536,
+      "median_ACC_all_blocks": 0.49529999999999996,
+      "median_many_to_one_ACC_all_blocks": 0.9443,
+      "median_rare_recall": 0.09011831991769048,
+      "median_runtime_s": 0.1819794000184629,
+      "median_n_clusters": 8.0,
+      "median_n_balls": 17.0
+    },
+    "MG-GBC": {
+      "blocks": 20,
+      "informative_blocks": 20,
+      "median_ARI_informative": 0.16429393607758366,
+      "median_NMI_informative": 0.31878668762708995,
+      "median_ACC_all_blocks": 0.4897,
+      "median_many_to_one_ACC_all_blocks": 0.9521999999999999,
+      "median_rare_recall": 0.15594298040681556,
+      "median_runtime_s": 0.18694989997311495,
+      "median_n_clusters": 13.5,
+      "median_n_balls": 22.0
+    }
+  },
+  "primary_paired_comparison_mg_minus_arp": {
+    "definition": "ARI and NMI medians are taken over blocks with at least two true classes, because single-class blocks do not test between-class recovery. Their raw sklearn metric values remain in the block-level output.",
+    "informative_blocks": 20,
+    "single_class_blocks": 0,
+    "median_delta_ARI": -0.0013041884989289793,
+    "median_delta_NMI": 0.002662091680617318,
+    "median_delta_ACC": -0.004599999999999993,
+    "median_delta_many_to_one_ACC": 0.004300000000000026,
+    "median_delta_rare_recall": 0.06415944074746252,
+    "ARI_wins": 9,
+    "ARI_ties": 0,
+    "ARI_losses": 11,
+    "ARI_worst_delta": -0.030925617603204114,
+    "ARI_noninferior_at_minus_0_005": 14,
+    "ARI_noninferior_fraction": 0.7,
+    "ARI_two_sided_exact_sign_p": 0.8238029479980469,
+    "rare_recall_two_sided_exact_sign_p": 0.000518798828125
+  },
+  "acc_bijection_accounting": {
+    "explanation": "Hungarian ACC cannot score more clusters than there are classes; unmatched_cluster_share is the mass the bijection discards.",
+    "median_delta_unmatched_cluster_share": 0.1152,
+    "median_delta_ACC_net_of_bijection": 0.0854,
+    "blocks_where_bijection_explains_full_ACC_gap": 18
+  },
+  "relationship_to_v1": {
+    "v1_protocol_id": "UNSW-NB15-TEMPORAL-20260826-v1",
+    "status": "v1 remains frozen, valid and reportable; v2 is a replication under a refined protocol, not a correction.",
+    "changes": [
+      "Block eligibility adds the label-free rule n_services >= 8.",
+      "Metrics add many-to-one ACC and the Hungarian bijection penalty.",
+      "ARI and NMI are declared undefined, not zero, on single-class blocks.",
+      "The clustering methods are unchanged, so the block-rule effect is not confounded with a method change."
+    ],
+    "method_change_considered_and_rejected": {
+      "candidate": "rare_density_z = 1.25 (or an absolute density-contrast guard tau >= 0.075)",
+      "effect_on_unsw": "Removes the block-12 regression; worst paired delta ARI improves from -0.0833 to -0.0018.",
+      "why_rejected": "Every setting strong enough to remove the block-12 regression also stops detecting the 25-point rare core in Synthetic-Imbalance (rare-recall 1.000 -> 0.000) and, at tau >= 0.15, Page-blocks as well. The ARI gain is MG-GBC reverting to ARP-GB on the probe designed to demonstrate the mechanism.",
+      "alternative_tried": "A corridor-valley rare-core test requiring the segment to the nearest background ball to empty out. It is too aggressive in high dimensions: Digits-Rare rare-recall 0.708 -> 0.500, Page-blocks 0.143 -> 0.000, and the UNSW rare-recall advantage disappears.",
+      "status": "Open. The density-contrast statistic does not separate a true rare core from a dense majority fragment, so a cutoff on it cannot fix block 12 without cost.",
+      "recommended_ablation": "rare_density_z = 1.0 is the largest cutoff that still detects the Synthetic-Imbalance rare core. On the v2 blocks it gives median delta ARI +0.0049, median delta ACC 0.0000, median delta rare-recall +0.0378 (sign p = 0.0074) and 19/20 non-inferiority, at a cost of Synthetic-SplitRare ARI 1.000 -> 0.991. It does not repair block 12."
+    },
+    "pre_registration_caveat": "The eligibility statistic was selected by scoring label-free candidates against labels over all 283 v1-eligible buckets. It is therefore informed by v1 outcomes and must be reported as such; the new selection seed and the untouched v1 result are what keep the comparison honest."
+  }
+}

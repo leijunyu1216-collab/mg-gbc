@@ -1,0 +1,122 @@
+{
+  "protocol_id": "CIC-IDS2018-TEMPORAL-20261024-v1",
+  "frozen_at": "2026-10-24T10:51:49+08:00",
+  "supersedes": null,
+  "purpose": "Second real-world paired temporal-block benchmark of MG-GBC versus ARP-GB, on CIC-IDS2018, under the matched graph policy. Its role in the manuscript is to test whether the rare-core result of the UNSW-NB15 study survives a change of source, of feature space and of label taxonomy.",
+  "evidence_tier": "Second real-world source. Blocks are repeated measures within one collection; this is not a cross-source generalisation claim and not a claim of universal accuracy superiority.",
+  "design_principle": "The block width, the rows per block and k are inherited verbatim from the UNSW-NB15 protocol (300 s, 5000 rows, k = 10). Nothing about the construction was tuned on this source. What the source does force is a change in how the pool is used: because the collection is campaign-structured, most windows are single-class and only a minority carry a class inside the rare band. The protocol therefore evaluates every eligible window instead of drawing a fixed number of blocks, so that no window is selected on its label.",
+
+  "source": {
+    "name": "CIC-IDS2018 (CSE-CIC-IDS2018)",
+    "surface": "AWS Open Data Registry, bucket cse-cic-ids2018, prefix Processed Traffic Data for ML Algorithms",
+    "official_reference": "Sharafaldin, Lashkari and Ghorbani, 2018; Canadian Institute for Cybersecurity",
+    "downloaded_at": "2026-10-24",
+    "license_note": "Public research release; aws registry terms apply. No authentication was used.",
+    "files": [
+      {"name": "Wednesday-14-02-2018.csv", "bytes": 358223333, "sha256": "ACFF8BC61376EE031D80878EE6099E0B1A87A1BD711D8068298421418C9F8147"},
+      {"name": "Thursday-15-02-2018.csv", "bytes": 375945899, "sha256": "FA2947A8256D81EE9103AE16139D62D0E17AA23E696EE80D9E76FB51C01C9C4B"},
+      {"name": "Friday-16-02-2018.csv", "bytes": 333723605, "sha256": "1A4919FAA0C49C7AF97230B0C2D076EBA23EE6DD81103A3801D51AC316355D8B"},
+      {"name": "Wednesday-21-02-2018.csv", "bytes": 328893673, "sha256": "A5F4A1C2689E0AA6566C03A58466DE9C407C0BE0CBD3CC69306544026611BE04"},
+      {"name": "Thursday-22-02-2018.csv", "bytes": 382636202, "sha256": "DA33C927018274F9D49B145BAA00E4CE0526C25B3B890B34C489E247B5E24544"},
+      {"name": "Friday-23-02-2018.csv", "bytes": 382840456, "sha256": "D0A7F5059D9823B6E9B392B759E306481A3502D190DEA7A1B5502AE079EA069B"},
+      {"name": "Wednesday-28-02-2018.csv", "bytes": 209249758, "sha256": "F15E2A12304446058A0186C8AD67DE2BD15735A9BA5C70C9A1F4C4242AB06771"},
+      {"name": "Thursday-01-03-2018.csv", "bytes": 107842858, "sha256": "B0534C5D7D8B41E03DF71C6966C995D116A8ED28E61F377C8B14CDF5D28F4EDF"},
+      {"name": "Friday-02-03-2018.csv", "bytes": 352368373, "sha256": "D96F38E7496ABA83475031E6FB8C6FDF1ABF6AA1B71325A917798F3C7DE93DE1"}
+    ]
+  },
+
+  "preprocessing": {
+    "timestamp_column": "Timestamp",
+    "timestamp_format": "%d/%m/%Y %H:%M:%S",
+    "row_filter": [
+      "Rows whose Timestamp does not parse are dropped.",
+      "Rows whose Label is literally 'Label' are dropped; these are repeated header lines emitted by the capture export."
+    ],
+    "duplicates": "Within each file, rows that are identical on all flow columns (every column except Timestamp and Label) are collapsed to the first occurrence before any windowing. Duplicate share by file is recorded in results/cicids2018_source_profile.json.",
+    "features": "Every column other than Timestamp and Label, in file order: Dst Port and Protocol are kept as numeric flow attributes, giving 78 features per row. No feature selection, no target encoding, no cross-block statistics.",
+    "per_block_completion": "Within a drawn block, non-finite values in a numeric column (the export contains +inf in the rate columns of zero-duration flows) are replaced by that column's finite median in the same block, then every column is min-max scaled within the block. Both operations use block-level statistics only.",
+    "labels": "The Label column is read only after the block has been drawn and the feature matrix frozen. It never enters eligibility, sampling or model fitting."
+  },
+
+  "sampling": {
+    "timezone": "UTC as recorded in the export",
+    "block_width_seconds": 300,
+    "rows_per_block": 5000,
+    "eligible_block_rule": "Every 300 s bucket containing at least 5000 deduplicated rows of the pooled nine-day collection.",
+    "eligibility_is_label_free": true,
+    "eligibility_columns_used": ["Timestamp"],
+    "window_subsampling": "None. Every eligible window is evaluated. Drawing a fixed number of windows from the pool would have required either a label-aware selection or an arbitrary draw that leaves most rare-bearing windows unused.",
+    "within_block_sampling": "Uniform without replacement, seed 20261024 + window index, applied after the window set is fixed.",
+    "block_selection_seed": 20261024,
+    "rows_per_block_justification": "Inherited from the UNSW-NB15 protocol so that the two real-source experiments share one block definition."
+  },
+
+  "analysis_sets": {
+    "primary": {
+      "windows": "All eligible windows, pooled over the nine days.",
+      "note": "The rare-recall endpoint is defined only on windows whose drawn block contains at least one class with 3 <= count < sqrt(5000); src.metrics.rare_class_recall returns NaN otherwise."
+    },
+    "internal_replication": {
+      "windows": "The two days that carry rare-bearing windows, analysed separately: 2018-02-22 as the replication set and 2018-02-23 as the holdout set.",
+      "ordering_rule": "The runner is executed twice. The first execution is restricted to 2018-02-22 and its outputs are written before the 2018-02-23 execution is started; the second execution covers the remaining eight days. File timestamps are the evidence of the ordering.",
+      "reason": "The collection's campaign structure concentrates the rare-bearing windows in these two days, so a whole-day split over all nine days would leave the holdout with no rare class to score."
+    },
+    "locality_control": {
+      "windows": "Every window whose drawn block contains no class below sqrt(5000), that is, the complement of the primary rare-recall subset.",
+      "prediction": "The two methods return the same partition. This is the empirical counterpart of Proposition 3 and Corollary 2: with no rare core to retain, the predicate does not fire and the edit is empty."
+    }
+  },
+
+  "models": {
+    "k": 10,
+    "comparison": ["ARP-GB", "MG-GBC"],
+    "graph_policy": "Matched. Both methods run with size_gate=False, disabling the inherited size-ratio guard for both. ARPGB defaults to the published guard, so the flag is passed explicitly.",
+    "mg_gbc_params": {
+      "rare_density_z": 0.5,
+      "rare_isolation_z": 0.0,
+      "rare_min_size": 3,
+      "fragment_density_contrast": 0.25,
+      "fragment_near_factor": 1.5,
+      "fragment_closeness_factor": 0.5,
+      "fragment_corridor_factor": 0.5,
+      "fragment_guard": true,
+      "rationale": "The manuscript's default configuration. No constant is tuned on this source."
+    },
+    "model_hashes": {
+      "src/arp_gb.py": "3E2A2CF81617A472FE610D37932B6D32BF9C3A04A98E2326F403583212ADFA0C",
+      "src/mg_gbc.py": "90B2438ED28F7B1A64E72036B8F4BAE963FDFB7E02F14E19BCFA04F245D3BBF4",
+      "src/core.py": "69CE63A205519808FA359FEE1CB3285F27D2987ABF7D6329FE53A97EC4CC3636",
+      "src/metrics.py": "A68ED4EABD2C32C6C094F3A6EC9EE0E1E098D610513F308680104AB3AB875FA6",
+      "src/metrics_ext.py": "7431AC0B0DD44EC9A67CA34AD14821BD2C3026A881F116F2C66B8797552A8917"
+    }
+  },
+
+  "endpoints": {
+    "primary": "rare_recall, mean Hungarian-matched recall over the true classes below sqrt(n) in the drawn block",
+    "secondary": ["ARI", "NMI", "ACC", "many_to_one_ACC", "unmatched_cluster_share", "n_clusters", "n_balls", "n_rare_cores", "n_fragment_edges", "wall time"],
+    "paired_delta": "MG-GBC minus ARP-GB on the same block. ARI and NMI are reported on blocks with at least two true classes; rare_recall is reported on blocks with at least one class below sqrt(n).",
+    "agreement": "The two partitions are called identical when their adjusted Rand index is 1 to within 1e-12."
+  },
+
+  "preregistered_criteria": {
+    "H1_mechanism": "Over the primary rare-recall subset, the median paired delta rare_recall is greater than 0 and the two-sided exact sign test on the non-tied pairs gives p < 0.05.",
+    "H2_replication": "The sign of the median paired delta rare_recall is the same on 2018-02-22 and on 2018-02-23 when each day is analysed on its own.",
+    "H3_locality": "The partitions coincide on at least 90% of the locality-control windows.",
+    "H4_noninferiority": "Over the blocks with at least two true classes, the median paired delta ARI is at least -0.005.",
+    "reporting_rule": "All four criteria are reported whether or not they are met. No criterion is redefined after the run. If a criterion fails, the failure is stated in the manuscript and the claim it supported is withdrawn rather than weakened."
+  },
+
+  "pre_registration_caveat": "A label-aware feasibility census of the eligible windows was run before this document was frozen, and it is reported in results/cicids2018_window_census.json: 527 eligible windows, 202 with at least two true classes, 59 with a class inside the rare band, and those 59 concentrated on 2018-02-22 and 2018-02-23. The census did not choose anything here. The block width, rows per block and k were fixed by inheritance from the UNSW protocol before any CIC-IDS2018 number was computed, no constant of either method was tuned on this source, and the run covers every eligible window rather than a selected subset. What the census did do is make the split in analysis_sets.internal_replication inevitable, and it is disclosed for that reason. A configuration that had been chosen on these blocks would be reported as a development result, not as a test.",
+
+  "observed_source_profile_before_modeling": {
+    "rows_after_row_filter": 6342599,
+    "rows_after_dedup": 6145521,
+    "duplicate_share_range_by_day": [0.14, 0.46],
+    "eligible_windows": 527,
+    "windows_with_at_least_two_true_classes": 202,
+    "windows_with_a_rare_class": 59,
+    "windows_single_class": 325,
+    "median_largest_class_share": 1.0,
+    "note": "The median largest-class share of exactly 1.0 is the campaign structure: within a five-minute window the traffic is usually a single recorded behaviour. It is a property of the collection, not of the sampling rule."
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "protocol_id": "CIC-IDS2018-TEMPORAL-20261024-v1",
+  "protocol_sha256": "EF15F9FFDE3DB406F69A36BD60A0E2785004D8C1159A52248FFCC2A0FC3E0D6E",
+  "generated_at": "2026-10-24T03:18:59.772788+00:00",
+  "windows_evaluated": 527,
+  "methods": {
+    "ARP-GB": {
+      "windows": 527,
+      "median_ARI_informative": 0.06553516312345001,
+      "median_rare_recall": 0.555555555556,
+      "windows_with_defined_rare_recall": 69,
+      "median_ACC": 0.2824,
+      "median_many_to_one_ACC": 1.0,
+      "median_runtime_s": 0.1531971,
+      "median_n_clusters": 12.0,
+      "median_n_balls": 13.0
+    },
+    "MG-GBC": {
+      "windows": 527,
+      "median_ARI_informative": 0.0701880104049,
+      "median_rare_recall": 0.555555555556,
+      "windows_with_defined_rare_recall": 69,
+      "median_ACC": 0.2806,
+      "median_many_to_one_ACC": 1.0,
+      "median_runtime_s": 0.1561465,
+      "median_n_clusters": 16.0,
+      "median_n_balls": 17.0
+    }
+  },
+  "paired": {
+    "windows": 527,
+    "windows_with_at_least_two_classes": 200,
+    "windows_with_defined_rare_recall": 69,
+    "control_windows_without_rare_class": 458,
+    "median_delta_ARI_informative": -7.192516587199921e-05,
+    "median_delta_rare_recall": 0.0,
+    "median_delta_many_to_one_ACC": 0.0,
+    "median_runtime_ratio_mg_over_arp": 1.0227499406383331,
+    "rare_core_activation_rate": 0.9544592030360531,
+    "identical_partition_rate_all_windows": 0.0018975332068311196
+  },
+  "criteria": {
+    "H1_mechanism": {
+      "statistic": "median delta rare_recall over windows with a defined rare-recall",
+      "value": 0.0,
+      "sign_test": {
+        "wins": 2,
+        "ties": 62,
+        "losses": 5,
+        "two_sided_exact_sign_p": 0.453125
+      },
+      "met": false
+    },
+    "H2_replication": {
+      "statistic": "sign of the median delta rare_recall on each rare-bearing day",
+      "per_day": {
+        "2018-02-14": {
+          "windows_with_defined_rare_recall": 6,
+          "median_delta_rare_recall": 0.0,
+          "wins": 0,
+          "ties": 6,
+          "losses": 0,
+          "two_sided_exact_sign_p": null
+        },
+        "2018-02-15": {
+          "windows_with_defined_rare_recall": 1,
+          "median_delta_rare_recall": 0.0,
+          "wins": 0,
+          "ties": 1,
+          "losses": 0,
+          "two_sided_exact_sign_p": null
+        },
+        "2018-02-21": {
+          "windows_with_defined_rare_recall": 2,
+          "median_delta_rare_recall": 0.014285714285500017,
+          "wins": 1,
+          "ties": 1,
+          "losses": 0,
+          "two_sided_exact_sign_p": 1.0
+        },
+        "2018-02-22": {
+          "windows_with_defined_rare_recall": 27,
+          "median_delta_rare_recall": 0.0,
+          "wins": 0,
+          "ties": 27,
+          "losses": 0,
+          "two_sided_exact_sign_p": null
+        },
+        "2018-02-23": {
+          "windows_with_defined_rare_recall": 33,
+          "median_delta_rare_recall": 0.0,
+          "wins": 1,
+          "ties": 27,
+          "losses": 5,
+          "two_sided_exact_sign_p": 0.21875
+        }
+      },
+      "met": false
+    },
+    "H3_locality": {
+      "statistic": "share of control windows with an identical partition",
+      "value": 0.002183406113537118,
+      "control_windows": 458,
+      "threshold": 0.9,
+      "met": false
+    },
+    "H4_noninferiority": {
+      "statistic": "median delta ARI over blocks with at least two true classes",
+      "value": -7.192516587199921e-05,
+      "threshold": -0.005,
+      "met": true
+    }
+  },
+  "preregistration_caveat": "A label-aware feasibility census of the eligible windows was run before this document was frozen, and it is reported in results/cicids2018_window_census.json: 527 eligible windows, 202 with at least two true classes, 59 with a class inside the rare band, and those 59 concentrated on 2018-02-22 and 2018-02-23. The census did not choose anything here. The block width, rows per block and k were fixed by inheritance from the UNSW protocol before any CIC-IDS2018 number was computed, no constant of either method was tuned on this source, and the run covers every eligible window rather than a selected subset. What the census did do is make the split in analysis_sets.internal_replication inevitable, and it is disclosed for that reason. A configuration that had been chosen on these blocks would be reported as a development result, not as a test.",
+  "execution_order": {
+    "replication": "2018-02-22",
+    "holdout_and_control": "the remaining eight days",
+    "note": "Two executions, replication first; file modification times record the order."
+  }
+}

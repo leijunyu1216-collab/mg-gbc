@@ -1,0 +1,148 @@
+{
+  "protocol_id": "UNSW-NB15-TEMPORAL-20260826-v1",
+  "frozen_at": "2026-08-26T10:25:00+08:00",
+  "purpose": "Real-world paired temporal-block benchmark of MG-GBC versus ARP-GB on UNSW-NB15.",
+  "evidence_tier": "Expansion of the real-world experiment; not an external-generalization or cross-source claim.",
+  "source": {
+    "name": "UNSW-NB15",
+    "original_collection": "UNSW Canberra Cyber Range Lab",
+    "official_page": "https://research.unsw.edu.au/projects/unsw-nb15-dataset",
+    "download_surface": "Official UNSW SharePoint folder linked by the official page",
+    "version": "No explicit version identifier exposed by the official download surface",
+    "license_note": "Official page grants academic/public research use; commercial use requires agreement with the authors.",
+    "download_date": "2026-08-26",
+    "files": [
+      {
+        "name": "UNSW-NB15_1.csv",
+        "sha256": "7D851BBEABD27894CE39C8E78835C73341FC946652FB7743B9EFF193B55EB511"
+      },
+      {
+        "name": "UNSW-NB15_2.csv",
+        "sha256": "6130AD02873CC6069AE695CF2844F2E8C2E9A9A1B7532DD82AB8F202757CACF8"
+      },
+      {
+        "name": "UNSW-NB15_3.csv",
+        "sha256": "AE990A96C3DFCD425CE2801AADB1727A34D5E0AE6D8215DBCDAE60DEDFAEF640"
+      },
+      {
+        "name": "UNSW-NB15_4.csv",
+        "sha256": "CDF563692D51D405541DD659DDCDAD9FA01F001F05FE9FC4B67F00CA12FBC96A"
+      },
+      {
+        "name": "NUSW-NB15_features.csv",
+        "sha256": "C55F19CCEEBB6360DC50F44F8A5F246CCEFBCF8A6C604AC1AD46E643869CAFCE"
+      }
+    ]
+  },
+  "observed_source_profile_before_modeling": {
+    "rows_read": 2540047,
+    "official_page_rows": 2540044,
+    "row_count_discrepancy": 3,
+    "timestamp_min_unix": 1421927377,
+    "timestamp_max_unix": 1424262068,
+    "five_minute_buckets": 293,
+    "eligible_five_minute_buckets": 283,
+    "exact_duplicate_pair_count_by_full_row_hash": 480630,
+    "duplicate_policy": "Preserve source rows. No stable Flow ID exists in the full CSVs, and the requested protocol does not authorize outcome- or duplicate-based row deletion. Report duplicate rates as a data-quality caveat."
+  },
+  "sampling": {
+    "timezone": "UTC",
+    "block_width_seconds": 300,
+    "eligible_block_rule": "At least 5000 source rows with stime in [start, start + 300)",
+    "block_selection_seed": 20260826,
+    "selected_blocks": 20,
+    "rows_per_block": 5000,
+    "within_block_sampling": "Uniform without replacement using seed 20260826 + block_index after block selection is frozen; no label is consulted.",
+    "selected_block_starts_unix": [
+      1421931000,
+      1421933100,
+      1421937300,
+      1421938200,
+      1421940000,
+      1421941200,
+      1421942100,
+      1421959500,
+      1421961900,
+      1421964000,
+      1421970600,
+      1424220000,
+      1424223300,
+      1424229000,
+      1424229300,
+      1424235000,
+      1424243700,
+      1424244300,
+      1424249400,
+      1424251200
+    ]
+  },
+  "features": {
+    "input_feature_count": 43,
+    "excluded_columns": [
+      "srcip",
+      "dstip",
+      "stime",
+      "ltime",
+      "attack_cat",
+      "label"
+    ],
+    "flow_id_status": "No Flow ID column exists in the four full official CSV shards.",
+    "categorical_columns": [
+      "proto",
+      "state",
+      "service"
+    ],
+    "categorical_rule": "Per-block ordinal encoding with a missing token; fitted without labels.",
+    "numeric_missing_rule": "Per-block median imputation; all-missing numeric columns become zero.",
+    "scaling": "One common per-block min-max transform is computed once and the identical matrix is passed to both methods with internal scale=False."
+  },
+  "models": {
+    "k": 10,
+    "comparison": [
+      "ARP-GB",
+      "MG-GBC"
+    ],
+    "model_hashes": {
+      "src/arp_gb.py": "57002770374F44AA6F2300AC0DC83AD9C72897EE0F14FC59439797ABDA809265",
+      "src/mg_gbc.py": "EDD0A02FD4BD382CEB51080CFAC3624EF7C096F89219B0AC909D0BB14B5F92E5",
+      "src/core.py": "450CED0C724FE55716F6D0733817AC2246BB11624B414EEF9A3EA9D4E6DA83B5",
+      "src/metrics.py": "A68ED4EABD2C32C6C094F3A6EC9EE0E1E098D610513F308680104AB3AB875FA6"
+    }
+  },
+  "labels_and_metrics": {
+    "target": "Ten-class attack_cat including Normal",
+    "label_blinding": "Labels are indexed only after the block and its 5000 sampled rows are fixed and the feature matrix is frozen.",
+    "metrics": [
+      "ARI",
+      "NMI",
+      "ACC",
+      "rare_recall",
+      "n_clusters",
+      "rare_core_activation",
+      "runtime_s",
+      "wins_ties_losses"
+    ],
+    "rare_class_rule": "A true class with count < sqrt(5000); recall is computed after Hungarian matching.",
+    "tie_tolerance": 1e-12
+  },
+  "aggregation": {
+    "block_level": "Save every method result for every selected block.",
+    "source_level": "Take medians across the 20 blocks before any source-level statement.",
+    "independence_rule": "The 20 blocks are repeated samples from one source and must never be counted as 20 independent datasets."
+  },
+  "source_level_evaluation": {
+    "primary_effect": "Median paired delta ARI (MG-GBC minus ARP-GB) across the 20 frozen blocks.",
+    "secondary_effects": [
+      "Median paired delta NMI",
+      "Median paired delta ACC",
+      "Median paired delta rare-recall on blocks where it is defined",
+      "ARI wins/ties/losses across paired blocks",
+      "Median MG-GBC/ARP-GB runtime ratio",
+      "MG-GBC rare-core activation rate",
+      "Median paired delta rare-recall on blocks where MG-GBC detects at least one rare core"
+    ],
+    "interpretation": "The 20 blocks quantify within-dataset stability and paired performance. They produce one UNSW-NB15 real-world benchmark result and must not be interpreted as 20 independent sources.",
+    "cross_source_rules": "Not evaluated in this run because only one dataset/source is in scope."
+  },
+  "stopping_rule": "Run all 20 frozen blocks and report every completed or failed method without block replacement or threshold changes."
+}

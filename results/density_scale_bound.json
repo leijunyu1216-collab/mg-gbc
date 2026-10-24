@@ -1,0 +1,218 @@
+{
+  "k": 10,
+  "seeds": 5,
+  "n_background": 3000,
+  "group_radius": 0.001,
+  "bound": "rho_group -> k / (k - m + 1) for m <= k, and diverges for m >= k",
+  "rows": [
+    {
+      "d": 8,
+      "m": 2,
+      "ratio": 1.071459402787735,
+      "rho_group": 1.3380029676199512,
+      "rho_background": 1.2487668353450632,
+      "predicted": 1.1111111111111112
+    },
+    {
+      "d": 8,
+      "m": 3,
+      "ratio": 1.1908418844647353,
+      "rho_group": 1.4868801478935811,
+      "rho_background": 1.2485957768960323,
+      "predicted": 1.25
+    },
+    {
+      "d": 8,
+      "m": 4,
+      "ratio": 1.3209381803037692,
+      "rho_group": 1.6491811210019747,
+      "rho_background": 1.2484922804053715,
+      "predicted": 1.4285714285714286
+    },
+    {
+      "d": 8,
+      "m": 5,
+      "ratio": 1.4757037429460391,
+      "rho_group": 1.8414286288785153,
+      "rho_background": 1.2484922804053715,
+      "predicted": 1.6666666666666667
+    },
+    {
+      "d": 8,
+      "m": 6,
+      "ratio": 1.747466162561697,
+      "rho_group": 2.1816980142278766,
+      "rho_background": 1.2484922804053715,
+      "predicted": 2.0
+    },
+    {
+      "d": 8,
+      "m": 7,
+      "ratio": 2.211759969859621,
+      "rho_group": 2.761365248479354,
+      "rho_background": 1.2484922804053715,
+      "predicted": 2.5
+    },
+    {
+      "d": 8,
+      "m": 8,
+      "ratio": 2.9902762537361194,
+      "rho_group": 3.733190356259512,
+      "rho_background": 1.2484433007134972,
+      "predicted": 3.3333333333333335
+    },
+    {
+      "d": 8,
+      "m": 9,
+      "ratio": 4.203019276475961,
+      "rho_group": 5.244657039345942,
+      "rho_background": 1.2484433007134972,
+      "predicted": 5.0
+    },
+    {
+      "d": 8,
+      "m": 10,
+      "ratio": 8.001143398148749,
+      "rho_group": 9.989073640363408,
+      "rho_background": 1.2484433007134972,
+      "predicted": 10.0
+    },
+    {
+      "d": 8,
+      "m": 11,
+      "ratio": 1.3942600450137292,
+      "rho_group": 1.7398006715522776,
+      "rho_background": 1.2484433007134972,
+      "predicted": Infinity
+    },
+    {
+      "d": 8,
+      "m": 12,
+      "ratio": 1.3242040442979481,
+      "rho_group": 1.6520543806724746,
+      "rho_background": 1.2484433007134972,
+      "predicted": Infinity
+    },
+    {
+      "d": 8,
+      "m": 13,
+      "ratio": 1.2031306210846824,
+      "rho_group": 1.5020403637764408,
+      "rho_background": 1.2484433007134972,
+      "predicted": Infinity
+    },
+    {
+      "d": 8,
+      "m": 14,
+      "ratio": 1.2131598089829885,
+      "rho_group": 1.5206396593839253,
+      "rho_background": 1.2484433007134972,
+      "predicted": Infinity
+    },
+    {
+      "d": 40,
+      "m": 2,
+      "ratio": 1.1115217609160588,
+      "rho_group": 1.1881893262427896,
+      "rho_background": 1.0680633295857516,
+      "predicted": 1.1111111111111112
+    },
+    {
+      "d": 40,
+      "m": 3,
+      "ratio": 1.2547307212974559,
+      "rho_group": 1.341342520249351,
+      "rho_background": 1.0680496047021586,
+      "predicted": 1.25
+    },
+    {
+      "d": 40,
+      "m": 4,
+      "ratio": 1.4193580215356398,
+      "rho_group": 1.5173101169781376,
+      "rho_background": 1.0680496047021586,
+      "predicted": 1.4285714285714286
+    },
+    {
+      "d": 40,
+      "m": 5,
+      "ratio": 1.6444411610798058,
+      "rho_group": 1.7579215087666729,
+      "rho_background": 1.0680429516008307,
+      "predicted": 1.6666666666666667
+    },
+    {
+      "d": 40,
+      "m": 6,
+      "ratio": 1.9449414657891604,
+      "rho_group": 2.079158875929533,
+      "rho_background": 1.0680350883258505,
+      "predicted": 2.0
+    },
+    {
+      "d": 40,
+      "m": 7,
+      "ratio": 2.4253846389826523,
+      "rho_group": 2.5927566913371485,
+      "rho_background": 1.0680350883258505,
+      "predicted": 2.5
+    },
+    {
+      "d": 40,
+      "m": 8,
+      "ratio": 3.2429905445508442,
+      "rho_group": 3.463573320445338,
+      "rho_background": 1.0680350883258505,
+      "predicted": 3.3333333333333335
+    },
+    {
+      "d": 40,
+      "m": 9,
+      "ratio": 4.782004402976698,
+      "rho_group": 5.112003149744622,
+      "rho_background": 1.0680205071199556,
+      "predicted": 5.0
+    },
+    {
+      "d": 40,
+      "m": 10,
+      "ratio": 9.360950174022317,
+      "rho_group": 9.99772229391107,
+      "rho_background": 1.0680205071199556,
+      "predicted": 10.0
+    },
+    {
+      "d": 40,
+      "m": 11,
+      "ratio": 1.24843639205987,
+      "rho_group": 1.333352940876516,
+      "rho_background": 1.0680205071199556,
+      "predicted": Infinity
+    },
+    {
+      "d": 40,
+      "m": 12,
+      "ratio": 1.1672424088070836,
+      "rho_group": 1.2477920067624804,
+      "rho_background": 1.0680205071199556,
+      "predicted": Infinity
+    },
+    {
+      "d": 40,
+      "m": 13,
+      "ratio": 1.1399508689121205,
+      "rho_group": 1.2174909051073568,
+      "rho_background": 1.0680205071199556,
+      "predicted": Infinity
+    },
+    {
+      "d": 40,
+      "m": 14,
+      "ratio": 1.127979575756072,
+      "rho_group": 1.204702854024843,
+      "rho_background": 1.0680205071199556,
+      "predicted": Infinity
+    }
+  ],
+  "reading": "The bound is a ceiling on how far a compact group of m points can lift the estimator relative to a background whose own density is set by its tightest structures. Where the background carries duplicates, its density is far above the uniform value, and a group of m < k points cannot reach it at any radius."
+}

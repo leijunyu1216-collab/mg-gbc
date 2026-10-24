@@ -1,0 +1,41 @@
+{
+  "baseline_protocol_id": "MGGBC-RECENT-BASELINES-20260822-v1",
+  "frozen_at_local": "2026-08-22T04:41:12+08:00",
+  "dataset_source": "The exact available external datasets in MGGBC-BLIND-20260822-v1; no replacements.",
+  "measured_methods": [
+    {
+      "name": "NGBC",
+      "category": "recent granular-ball clustering",
+      "paper": "An adaptive density clustering approach with multi-granularity fusion, Information Fusion, 2024",
+      "official_repository": "https://github.com/xjnine/NGBC",
+      "commit": "d8d7547cbdbb5f60c576f1b87e0eca0b4aa90825",
+      "settings": "Author algorithm without label input; StandardScaler as in author Test_Split.py; no tuned parameter.",
+      "eligibility": "n <= 2000 only, predeclared because the author implementation explicitly forms an n-by-n distance matrix. Larger datasets are marked resource-ineligible, not replaced."
+    },
+    {
+      "name": "EKM",
+      "category": "recent imbalanced clustering",
+      "paper": "An Equilibrium Approach to Clustering: Surpassing Fuzzy C-Means on Imbalanced Data, IEEE Transactions on Fuzzy Systems, 2025",
+      "official_repository": "https://github.com/ydcnanhe/Imbalanced-Data-Clustering-using-Equilibrium-K-Means",
+      "commit": "79dacc9b7966eda1f06557ac24cd134990d7bd10",
+      "settings": "Author EKM Python estimator; StandardScaler; alpha='dvariance'; scale=2.0; n_init=30; max_iter=500; tol=1e-3; random_state=0.",
+      "eligibility": "All available external datasets."
+    }
+  ],
+  "audited_but_not_measured": [
+    {
+      "name": "SAGBC",
+      "paper": "Structure-Aware Granular Ball Clustering, Information Sciences, 2026",
+      "official_repository": "https://github.com/Du-Team/SAGBC",
+      "commit": "66b6479a1b2ac0a75a4dbe9a24c608e1386aef68",
+      "reason": "The released script is a hard-coded million-point Spark experiment: it references an undefined SparkContext, a local C:/Users path, and fixed k=5000/K=5. Converting it into a general estimator would be a new reconstruction rather than executing the authors' implementation."
+    }
+  ],
+  "fairness_disclosure": "EKM is given the ground-truth number of classes, which favors EKM. NGBC and AdaptiveMGGBC infer their output cluster count. Targets are used only after predictions, except for supplying K to EKM as required by its API.",
+  "timing": "One warm-up plus five fresh runs; median wall-clock seconds; preprocessing included.",
+  "tradeoff_assessment": {
+    "quality": "ARI is primary; ACC and NMI secondary.",
+    "pareto": "Method A Pareto-dominates B on a dataset only if A has ARI >= B and runtime <= B, with at least one strict inequality.",
+    "aggregate_advantage": "AdaptiveMGGBC retains a defensible tradeoff advantage only if it Pareto-dominates each measured recent baseline on at least half of their mutually eligible datasets, or has both a better median ARI rank and a better median runtime rank."
+  }
+}

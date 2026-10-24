@@ -1,0 +1,185 @@
+{
+  "protocol_id": "UNSW-NB15-TEMPORAL-20260827-v2",
+  "frozen_at": "2026-08-26T13:25:14+08:00",
+  "supersedes": null,
+  "relationship_to_v1": {
+    "v1_protocol_id": "UNSW-NB15-TEMPORAL-20260826-v1",
+    "status": "v1 remains frozen, valid and reportable; v2 is a replication under a refined protocol, not a correction.",
+    "changes": [
+      "Block eligibility adds the label-free rule n_services >= 8.",
+      "Metrics add many-to-one ACC and the Hungarian bijection penalty.",
+      "ARI and NMI are declared undefined, not zero, on single-class blocks.",
+      "The clustering methods are unchanged, so the block-rule effect is not confounded with a method change."
+    ],
+    "method_change_considered_and_rejected": {
+      "candidate": "rare_density_z = 1.25 (or an absolute density-contrast guard tau >= 0.075)",
+      "effect_on_unsw": "Removes the block-12 regression; worst paired delta ARI improves from -0.0833 to -0.0018.",
+      "why_rejected": "Every setting strong enough to remove the block-12 regression also stops detecting the 25-point rare core in Synthetic-Imbalance (rare-recall 1.000 -> 0.000) and, at tau >= 0.15, Page-blocks as well. The ARI gain is MG-GBC reverting to ARP-GB on the probe designed to demonstrate the mechanism.",
+      "alternative_tried": "A corridor-valley rare-core test requiring the segment to the nearest background ball to empty out. It is too aggressive in high dimensions: Digits-Rare rare-recall 0.708 -> 0.500, Page-blocks 0.143 -> 0.000, and the UNSW rare-recall advantage disappears.",
+      "status": "Open. The density-contrast statistic does not separate a true rare core from a dense majority fragment, so a cutoff on it cannot fix block 12 without cost.",
+      "recommended_ablation": "rare_density_z = 1.0 is the largest cutoff that still detects the Synthetic-Imbalance rare core. On the v2 blocks it gives median delta ARI +0.0049, median delta ACC 0.0000, median delta rare-recall +0.0378 (sign p = 0.0074) and 19/20 non-inferiority, at a cost of Synthetic-SplitRare ARI 1.000 -> 0.991. It does not repair block 12."
+    },
+    "pre_registration_caveat": "The eligibility statistic was selected by scoring label-free candidates against labels over all 283 v1-eligible buckets. It is therefore informed by v1 outcomes and must be reported as such; the new selection seed and the untouched v1 result are what keep the comparison honest."
+  },
+  "purpose": "Real-world paired temporal-block benchmark of MG-GBC versus ARP-GB on UNSW-NB15 under a label-free block-heterogeneity rule.",
+  "evidence_tier": "Expansion of the real-world experiment; not an external-generalization or cross-source claim.",
+  "source": {
+    "name": "UNSW-NB15",
+    "original_collection": "UNSW Canberra Cyber Range Lab",
+    "official_page": "https://research.unsw.edu.au/projects/unsw-nb15-dataset",
+    "download_surface": "Official UNSW SharePoint folder linked by the official page",
+    "version": "No explicit version identifier exposed by the official download surface",
+    "license_note": "Official page grants academic/public research use; commercial use requires agreement with the authors.",
+    "download_date": "2026-08-26",
+    "files": [
+      {
+        "name": "UNSW-NB15_1.csv",
+        "sha256": "7D851BBEABD27894CE39C8E78835C73341FC946652FB7743B9EFF193B55EB511"
+      },
+      {
+        "name": "UNSW-NB15_2.csv",
+        "sha256": "6130AD02873CC6069AE695CF2844F2E8C2E9A9A1B7532DD82AB8F202757CACF8"
+      },
+      {
+        "name": "UNSW-NB15_3.csv",
+        "sha256": "AE990A96C3DFCD425CE2801AADB1727A34D5E0AE6D8215DBCDAE60DEDFAEF640"
+      },
+      {
+        "name": "UNSW-NB15_4.csv",
+        "sha256": "CDF563692D51D405541DD659DDCDAD9FA01F001F05FE9FC4B67F00CA12FBC96A"
+      },
+      {
+        "name": "NUSW-NB15_features.csv",
+        "sha256": "C55F19CCEEBB6360DC50F44F8A5F246CCEFBCF8A6C604AC1AD46E643869CAFCE"
+      }
+    ]
+  },
+  "observed_source_profile_before_modeling": {
+    "rows_read": 2540047,
+    "official_page_rows": 2540044,
+    "row_count_discrepancy": 3,
+    "timestamp_min_unix": 1421927377,
+    "timestamp_max_unix": 1424262068,
+    "five_minute_buckets": 293,
+    "eligible_five_minute_buckets": 283,
+    "exact_duplicate_pair_count_by_full_row_hash": 480630,
+    "duplicate_policy": "Preserve source rows. No stable Flow ID exists in the full CSVs, and the requested protocol does not authorize outcome- or duplicate-based row deletion. Report duplicate rates as a data-quality caveat."
+  },
+  "sampling": {
+    "timezone": "UTC",
+    "block_width_seconds": 300,
+    "eligible_block_rule": "At least 5000 source rows with stime in [start, start + 300) AND at least 8 distinct values of the service column in the bucket.",
+    "eligibility_is_label_free": true,
+    "eligibility_columns_used": [
+      "stime",
+      "service"
+    ],
+    "eligible_buckets_v1_rule": 283,
+    "eligible_buckets_v2_rule": 152,
+    "block_selection_seed": 20260827,
+    "selected_blocks": 20,
+    "rows_per_block": 5000,
+    "within_block_sampling": "Uniform without replacement using seed 20260827 + block_index after block selection is frozen; no label is consulted.",
+    "selected_block_starts_unix": [
+      1421930700,
+      1421931900,
+      1424226900,
+      1424227500,
+      1424229300,
+      1424230800,
+      1424238000,
+      1424238900,
+      1424242200,
+      1424242800,
+      1424243100,
+      1424244000,
+      1424244900,
+      1424246400,
+      1424246700,
+      1424253300,
+      1424254800,
+      1424257800,
+      1424261100,
+      1424261400
+    ]
+  },
+  "features": {
+    "input_feature_count": 43,
+    "excluded_columns": [
+      "srcip",
+      "dstip",
+      "stime",
+      "ltime",
+      "attack_cat",
+      "label"
+    ],
+    "flow_id_status": "No Flow ID column exists in the four full official CSV shards.",
+    "categorical_columns": [
+      "proto",
+      "state",
+      "service"
+    ],
+    "categorical_rule": "Per-block ordinal encoding with a missing token; fitted without labels.",
+    "numeric_missing_rule": "Per-block median imputation; all-missing numeric columns become zero.",
+    "scaling": "One common per-block min-max transform is computed once and the identical matrix is passed to both methods with internal scale=False."
+  },
+  "models": {
+    "k": 10,
+    "comparison": [
+      "ARP-GB",
+      "MG-GBC"
+    ],
+    "mg_gbc_params": {
+      "rare_density_z": 0.5,
+      "rationale": "Unchanged from v1 so that v2 isolates the sampling-protocol change."
+    },
+    "model_hashes": {
+      "src/arp_gb.py": "57002770374F44AA6F2300AC0DC83AD9C72897EE0F14FC59439797ABDA809265",
+      "src/mg_gbc.py": "EDD0A02FD4BD382CEB51080CFAC3624EF7C096F89219B0AC909D0BB14B5F92E5",
+      "src/core.py": "450CED0C724FE55716F6D0733817AC2246BB11624B414EEF9A3EA9D4E6DA83B5",
+      "src/metrics.py": "A68ED4EABD2C32C6C094F3A6EC9EE0E1E098D610513F308680104AB3AB875FA6",
+      "src/metrics_ext.py": "72EB916D4CA81FCF5F0CB61B6636B3D995E6A4841DC62187FA903FD750D6E9CE"
+    }
+  },
+  "labels_and_metrics": {
+    "target": "Ten-class attack_cat including Normal",
+    "label_blinding": "Labels are indexed only after the block and its 5000 sampled rows are fixed and the feature matrix is frozen.",
+    "metrics": [
+      "ARI",
+      "NMI",
+      "ACC",
+      "rare_recall",
+      "n_clusters",
+      "rare_core_activation",
+      "runtime_s",
+      "wins_ties_losses",
+      "many_to_one_ACC",
+      "unmatched_cluster_share",
+      "ACC_plus_bijection_penalty"
+    ],
+    "rare_class_rule": "A true class with count < sqrt(5000); recall is computed after Hungarian matching.",
+    "tie_tolerance": 1e-12,
+    "acc_reporting_rule": "Hungarian ACC is reported together with many-to-one ACC and the unmatched-cluster share, because Hungarian ACC cannot score more clusters than there are classes and therefore conflates over-partitioning with misassignment.",
+    "undefined_metric_rule": "ARI and NMI are undefined when a block contains a single true class. Such blocks must be excluded from ARI/NMI medians rather than entered as zero."
+  },
+  "aggregation": {
+    "block_level": "Save every method result for every selected block.",
+    "source_level": "Take medians across the 20 blocks before any source-level statement.",
+    "independence_rule": "The 20 blocks are repeated samples from one source and must never be counted as 20 independent datasets."
+  },
+  "source_level_evaluation": {
+    "primary_effect": "Median paired delta ARI (MG-GBC minus ARP-GB) across the 20 frozen blocks.",
+    "secondary_effects": [
+      "Median paired delta NMI",
+      "Median paired delta ACC",
+      "Median paired delta rare-recall on blocks where it is defined",
+      "ARI wins/ties/losses across paired blocks",
+      "Median MG-GBC/ARP-GB runtime ratio",
+      "MG-GBC rare-core activation rate",
+      "Median paired delta rare-recall on blocks where MG-GBC detects at least one rare core"
+    ],
+    "interpretation": "The 20 blocks quantify within-dataset stability and paired performance. They produce one UNSW-NB15 real-world benchmark result and must not be interpreted as 20 independent sources.",
+    "cross_source_rules": "Not evaluated in this run because only one dataset/source is in scope."
+  },
+  "stopping_rule": "Run all 20 frozen blocks and report every completed or failed method without block replacement or threshold changes."
+}

@@ -1,0 +1,12 @@
+dataset,n,k,dropped_points,cross_component,fraction,n_components
+Synthetic-Imbalance,945,12,69,0,0.0,3
+Synthetic-SplitRare,744,12,60,0,0.0,3
+Digits-Rare,184,10,13,0,0.0,1
+Covertype-Rare,640,10,44,0,0.0,1
+Olivetti-PCA,400,10,40,0,0.0,1
+Yeast,1484,10,98,0,0.0,3
+Pageblocks,5473,10,192,0,0.0,1
+Segment,2310,10,103,0,0.0,1
+Lymphography,148,10,2,0,0.0,1
+Dermatology,358,10,33,0,0.0,1
+Ecoli,336,6,16,0,0.0,2

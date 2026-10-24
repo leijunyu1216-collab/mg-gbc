@@ -1,0 +1,73 @@
+{
+  "protocol_id": "MG-GBC-COUPLING-GRID-20261023-v1",
+  "created": "2026-10-23",
+  "design_document": "experiments/COUPLING_GRID_DESIGN.md",
+  "purpose": "Answer Major comment 2 of the review: do the three fragment constants (delta, eta, beta) catastrophically fail when they interact?",
+  "status": "pre-registered before any grid cell was evaluated",
+  "grid": {
+    "delta": [0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45],
+    "eta": [1.00, 1.25, 1.50, 1.75, 2.00, 2.25, 2.50],
+    "beta": [0.30, 0.40, 0.50, 0.60, 0.70],
+    "defaults": {"delta": 0.25, "eta": 1.50, "beta": 0.50},
+    "beta_ties": "fragment_closeness_factor == fragment_corridor_factor == beta (as in Table 1 of the manuscript)",
+    "cells": 315,
+    "range_justification": "each ratio covers its full plausible interval, default at the centre; fixed before results"
+  },
+  "cohorts": {
+    "unsw_v2_replication": {
+      "source": "UNSW-NB15-TEMPORAL-20260827-v2",
+      "blocks": 20,
+      "rows_per_block": 5000,
+      "features": 43,
+      "role": "primary validation cohort (development/validation; not the untouched holdout)"
+    },
+    "development_suite": {
+      "source": "experiments.check_guard_paper_regression.paper_datasets",
+      "datasets": 10,
+      "role": "semantic risk (Digits-Rare) and the only set with a fragment edge at defaults (SplitRare)"
+    },
+    "covertype_rare": {
+      "source": "src.datasets.load_covtype_rare(seed=0)",
+      "features": 54,
+      "role": "negative control for spurious merges"
+    }
+  },
+  "excluded": {
+    "unsw_holdout_v1": "20 untouched holdout blocks; not evaluated at any non-default configuration, so the one-shot blind protocol is preserved"
+  },
+  "hypotheses": {
+    "H1_no_catastrophe": {
+      "rule": "for every grid cell: pooled median delta rare-recall >= -0.01 AND every UNSW block has delta rare-recall >= -0.10 AND delta ARI >= -0.05 (all relative to the default configuration)",
+      "falsified_by": "any grid cell violating either part"
+    },
+    "H2_no_hidden_compensation": {
+      "rule": "in the 9x7x5 decomposition of total fragment edges, the three-way interaction term explains < 5% of total sum of squares and the three main effects together explain >= 80%",
+      "falsified_by": "three-way interaction >= 5% or main effects < 80%"
+    },
+    "H3_plateau": {
+      "rule": "at least 90% of the 315 cells reproduce the default partition (identical label hash) on every unit of all three cohorts",
+      "falsified_by": "fewer than 284 cells are identical on all units"
+    },
+    "H4_semantic_safety": {
+      "rule": "no cell merges the two rare Digits classes: ARI >= default ARI - 0.001 and rare-recall >= default rare-recall - 0.001 on Digits-Rare",
+      "falsified_by": "any cell violating either bound on Digits-Rare"
+    }
+  },
+  "reported_regardless_of_outcome": [
+    "per-cell paired deltas against the default on every unit",
+    "count of cells that change any partition",
+    "worst block delta ARI and delta rare-recall over the grid",
+    "fragment edge count over the grid (operator-level response)",
+    "sum-of-squares decomposition of the edge response",
+    "per-pair decision margins",
+    "every H1-H4 violation located to its cell and unit"
+  ],
+  "statistics": {
+    "multiplicity": "none; the grid is a coverage check of the null region, not 315 hypothesis tests",
+    "replicates": "none; data are frozen and the pipeline is deterministic",
+    "resampling": "not used"
+  },
+  "implementation_check": {
+    "equivalence": "at least 10% of the cells re-run through MGGBC.fit_predict; label sha256 must match the cached-state path, otherwise the run aborts"
+  }
+}
