@@ -33,7 +33,9 @@ def run(name, loader, k):
             rec.append(float(r) if r == r else float("nan"))
     d = np.asarray(mg_ari) - np.asarray(arp_ari)
     nz = d[np.abs(d) > 1e-12]
-    p = float(wilcoxon(nz, alternative="greater", method="exact").pvalue) if len(nz) else 1.0
+    # Two-sided, matching the caption of the paired-draw table and the pooled
+    # UNSW-NB15 statistic in pool_unsw_matched.py.
+    p = float(wilcoxon(nz, alternative="two-sided", method="exact").pvalue) if len(nz) else 1.0
     return {
         "dataset": name,
         "ARP_mean_ari": float(np.mean(arp_ari)),
@@ -48,7 +50,7 @@ def run(name, loader, k):
         "ties": int((np.abs(d) <= 1e-12).sum()),
         "losses": int((d < -1e-12).sum()),
         "median_delta_ari": float(np.median(d)),
-        "wilcoxon_p": p,
+        "wilcoxon_p_two_sided": p,
     }
 
 
@@ -64,7 +66,7 @@ def main() -> None:
         print(
             f"{r['dataset']:<22} ARP {r['ARP_mean_ari']:.3f}+-{r['ARP_sd_ari']:.3f} "
             f"MG {r['MG_mean_ari']:.3f}+-{r['MG_sd_ari']:.3f} "
-            f"W/T/L {r['wins']}/{r['ties']}/{r['losses']} p={r['wilcoxon_p']:.5f} "
+            f"W/T/L {r['wins']}/{r['ties']}/{r['losses']} p2={r['wilcoxon_p_two_sided']:.5f} "
             f"Rrec {r['ARP_mean_rrec']:.3f} -> {r['MG_mean_rrec']:.3f}"
         )
     print(f"wrote {path}")

@@ -13,7 +13,7 @@
     "ties": 0,
     "losses": 6,
     "median_delta_ari": -0.04943895929725517,
-    "wilcoxon_p": 0.75390625
+    "wilcoxon_p_two_sided": 0.556640625
   },
   {
     "dataset": "Synthetic-SplitRare",
@@ -29,7 +29,7 @@
     "ties": 1,
     "losses": 0,
     "median_delta_ari": 0.8369711866294989,
-    "wilcoxon_p": 0.001953125
+    "wilcoxon_p_two_sided": 0.00390625
   },
   {
     "dataset": "Digits-Rare",
@@ -45,6 +45,6 @@
     "ties": 0,
     "losses": 0,
     "median_delta_ari": 0.8847691551974186,
-    "wilcoxon_p": 0.0009765625
+    "wilcoxon_p_two_sided": 0.001953125
   }
 ]
