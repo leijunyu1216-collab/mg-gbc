@@ -1,0 +1,345 @@
+{
+ "protocol_id": "OPENML-HELDOUT-20261024-v1",
+ "protocol_sha256": "71111CD553FBE8BFD454476E09ED2656EF961BDECC3A6DBAC3AA9B3574012E86",
+ "scored_at": "2026-10-25T18:49:32+0800",
+ "cohort_sizes": {
+  "cohort": 95,
+  "rare_subset_frozen": 9,
+  "locality_control_frozen": 86,
+  "pairs_scored": {
+   "rare": 9,
+   "control": 85,
+   "whole": 94
+  }
+ },
+ "statistics": {
+  "rare_subset": {
+   "sets": 9,
+   "sets_with_defined_rare_recall": 9,
+   "rare_recall": {
+    "pairs": 9,
+    "median_delta": 0.0,
+    "mean_delta": 0.047536834810385536,
+    "bootstrap95": [
+     0.0,
+     0.05275835275835275
+    ],
+    "min_delta": -0.23076923076923078,
+    "max_delta": 0.5652173913043478,
+    "wins": 3,
+    "ties": 5,
+    "losses": 1,
+    "two_sided_exact_sign_p": 0.625,
+    "two_sided_exact_wilcoxon_p": 0.625
+   },
+   "ARI": {
+    "pairs": 9,
+    "median_delta": 0.0052351475058656435,
+    "mean_delta": 0.037090274339998036,
+    "bootstrap95": [
+     -4.29375306942366e-05,
+     0.0450197738692078
+    ],
+    "min_delta": -0.01391314754072559,
+    "max_delta": 0.2575486933527786,
+    "wins": 6,
+    "ties": 1,
+    "losses": 2,
+    "two_sided_exact_sign_p": 0.2890625,
+    "two_sided_exact_wilcoxon_p": 0.109375
+   },
+   "ACC": {
+    "pairs": 9,
+    "median_delta": 0.0,
+    "mean_delta": 0.00664566923415111,
+    "bootstrap95": [
+     -0.005221932114882533,
+     0.04065040650406504
+    ],
+    "min_delta": -0.04306585259485385,
+    "max_delta": 0.05,
+    "wins": 4,
+    "ties": 2,
+    "losses": 3,
+    "two_sided_exact_sign_p": 1.0,
+    "two_sided_exact_wilcoxon_p": 0.6875
+   },
+   "NMI": {
+    "pairs": 9,
+    "median_delta": 0.008623939532872993,
+    "mean_delta": 0.05725550484802501,
+    "bootstrap95": [
+     -0.00016153764500343414,
+     0.1673488906753505
+    ],
+    "min_delta": -0.024648490414276414,
+    "max_delta": 0.21626322880020662,
+    "wins": 6,
+    "ties": 1,
+    "losses": 2,
+    "two_sided_exact_sign_p": 0.2890625,
+    "two_sided_exact_wilcoxon_p": 0.078125
+   },
+   "many_to_one_ACC": {
+    "pairs": 9,
+    "median_delta": 0.0007022471910113071,
+    "mean_delta": 0.013206765292796095,
+    "bootstrap95": [
+     0.0,
+     0.04065040650406504
+    ],
+    "min_delta": -0.007832898172323799,
+    "max_delta": 0.05,
+    "wins": 5,
+    "ties": 3,
+    "losses": 1,
+    "two_sided_exact_sign_p": 0.21875,
+    "two_sided_exact_wilcoxon_p": 0.09375
+   },
+   "identical_partitions": 1,
+   "identical_partition_share": 0.1111111111111111,
+   "sets_with_rare_core": 6,
+   "sets_with_fragment_edge": 0,
+   "median_runtime_ratio": 1.0436662197641577,
+   "shape_matches_protocol": 9
+  },
+  "locality_control": {
+   "sets": 85,
+   "sets_with_defined_rare_recall": 0,
+   "rare_recall": {},
+   "ARI": {
+    "pairs": 85,
+    "median_delta": 0.0,
+    "mean_delta": 0.0019069414438636029,
+    "bootstrap95": [
+     0.0,
+     0.0
+    ],
+    "min_delta": -0.062476248609193305,
+    "max_delta": 0.1531207922118788,
+    "wins": 33,
+    "ties": 24,
+    "losses": 28,
+    "two_sided_exact_sign_p": 0.6089207154048286,
+    "two_sided_exact_wilcoxon_p": 0.4577718238097994
+   },
+   "ACC": {
+    "pairs": 85,
+    "median_delta": -0.0019573302016050176,
+    "mean_delta": -0.02478577109535618,
+    "bootstrap95": [
+     -0.005928853754940733,
+     0.0
+    ],
+    "min_delta": -0.2632375189107413,
+    "max_delta": 0.056884765625,
+    "wins": 10,
+    "ties": 28,
+    "losses": 47,
+    "two_sided_exact_sign_p": 7.513043097095994e-07,
+    "two_sided_exact_wilcoxon_p": 2.6572319192230687e-08
+   },
+   "NMI": {
+    "pairs": 85,
+    "median_delta": 0.00016051825982667155,
+    "mean_delta": 0.007004310755884818,
+    "bootstrap95": [
+     0.0,
+     0.002558472582977006
+    ],
+    "min_delta": -0.05598844448544582,
+    "max_delta": 0.07567742162982433,
+    "wins": 48,
+    "ties": 24,
+    "losses": 13,
+    "two_sided_exact_sign_p": 7.665168380445453e-06,
+    "two_sided_exact_wilcoxon_p": 4.1576269915744035e-06
+   },
+   "many_to_one_ACC": {
+    "pairs": 85,
+    "median_delta": 0.0,
+    "mean_delta": 0.00691002448172189,
+    "bootstrap95": [
+     0.0,
+     0.0006788866259334614
+    ],
+    "min_delta": -0.05707196029776673,
+    "max_delta": 0.09872223912382116,
+    "wins": 35,
+    "ties": 42,
+    "losses": 8,
+    "two_sided_exact_sign_p": 4.1934157934520044e-05,
+    "two_sided_exact_wilcoxon_p": 5.60817215955467e-06
+   },
+   "identical_partitions": 24,
+   "identical_partition_share": 0.2823529411764706,
+   "sets_with_rare_core": 49,
+   "sets_with_fragment_edge": 0,
+   "median_runtime_ratio": 1.0088049797487657,
+   "shape_matches_protocol": 85
+  },
+  "whole_cohort": {
+   "sets": 94,
+   "sets_with_defined_rare_recall": 9,
+   "rare_recall": {
+    "pairs": 9,
+    "median_delta": 0.0,
+    "mean_delta": 0.047536834810385536,
+    "bootstrap95": [
+     0.0,
+     0.05275835275835275
+    ],
+    "min_delta": -0.23076923076923078,
+    "max_delta": 0.5652173913043478,
+    "wins": 3,
+    "ties": 5,
+    "losses": 1,
+    "two_sided_exact_sign_p": 0.625,
+    "two_sided_exact_wilcoxon_p": 0.625
+   },
+   "ARI": {
+    "pairs": 94,
+    "median_delta": 0.0,
+    "mean_delta": 0.00527555842328073,
+    "bootstrap95": [
+     0.0,
+     3.299499777188264e-05
+    ],
+    "min_delta": -0.062476248609193305,
+    "max_delta": 0.2575486933527786,
+    "wins": 39,
+    "ties": 25,
+    "losses": 30,
+    "two_sided_exact_sign_p": 0.3355576182340152,
+    "two_sided_exact_wilcoxon_p": 0.15562764344221103
+   },
+   "ACC": {
+    "pairs": 94,
+    "median_delta": -0.0017829972942780548,
+    "mean_delta": -0.021776377872318252,
+    "bootstrap95": [
+     -0.004663496708119941,
+     0.0
+    ],
+    "min_delta": -0.2632375189107413,
+    "max_delta": 0.056884765625,
+    "wins": 14,
+    "ties": 30,
+    "losses": 50,
+    "two_sided_exact_sign_p": 7.069487542545679e-06,
+    "two_sided_exact_wilcoxon_p": 1.01790930482975e-06
+   },
+   "NMI": {
+    "pairs": 94,
+    "median_delta": 0.00036888141467533025,
+    "mean_delta": 0.011815595296621646,
+    "bootstrap95": [
+     0.0,
+     0.002728137755492969
+    ],
+    "min_delta": -0.05598844448544582,
+    "max_delta": 0.21626322880020662,
+    "wins": 54,
+    "ties": 25,
+    "losses": 15,
+    "two_sided_exact_sign_p": 2.612848003590018e-06,
+    "two_sided_exact_wilcoxon_p": 6.52937033551737e-07
+   },
+   "many_to_one_ACC": {
+    "pairs": 94,
+    "median_delta": 0.0,
+    "mean_delta": 0.007512903921080057,
+    "bootstrap95": [
+     0.0,
+     0.0007022471910113071
+    ],
+    "min_delta": -0.05707196029776673,
+    "max_delta": 0.09872223912382116,
+    "wins": 40,
+    "ties": 45,
+    "losses": 9,
+    "two_sided_exact_sign_p": 9.263546409954415e-06,
+    "two_sided_exact_wilcoxon_p": 1.603069204492158e-06
+   },
+   "identical_partitions": 25,
+   "identical_partition_share": 0.26595744680851063,
+   "sets_with_rare_core": 55,
+   "sets_with_fragment_edge": 0,
+   "median_runtime_ratio": 1.0105470733859416,
+   "shape_matches_protocol": 94
+  },
+  "excluded": {
+   "rows_by_status": {
+    "ok": 188,
+    "load_error": 2
+   },
+   "data_ids_not_scored": [
+    1048
+   ],
+   "note": "A data set leaves the paired analysis only when a load or a fit raised; the reason is in the error column of the result CSV. No data set is dropped because of the value of any metric."
+  }
+ },
+ "preregistered_verdicts": {
+  "H1_rare_recall": {
+   "criterion": "On the rare subset, the median paired delta rare_recall is greater than 0 and the two-sided exact sign test over the non-tied pairs gives p < 0.05.",
+   "evaluated_on": "rare subset",
+   "observed": {
+    "median_delta_rare_recall": 0.0,
+    "bootstrap95": [
+     0.0,
+     0.05275835275835275
+    ],
+    "two_sided_exact_sign_p": 0.625,
+    "two_sided_exact_wilcoxon_p": 0.625,
+    "wins": 3,
+    "ties": 5,
+    "losses": 1,
+    "pairs": 9
+   },
+   "met": false
+  },
+  "H2_noninferiority": {
+   "criterion": "On the rare subset, where the edit can act, the median paired delta ARI is at least -0.05 and no single data set loses more than 0.15 ARI. The same two numbers over the whole cohort are reported beside them; the criterion is stated on the rare subset because the whole-cohort median is dominated by control data sets on which the two partitions are identical by construction.",
+   "evaluated_on": "rare subset, with the whole cohort reported beside it",
+   "observed": {
+    "median_delta_ARI_rare": 0.0052351475058656435,
+    "worst_delta_ARI_rare": -0.01391314754072559,
+    "bootstrap95_rare": [
+     -4.29375306942366e-05,
+     0.0450197738692078
+    ],
+    "median_delta_ARI_whole_cohort": 0.0,
+    "worst_delta_ARI_whole_cohort": -0.062476248609193305
+   },
+   "met": true
+  },
+  "H3_locality": {
+   "criterion": "On the locality control, where no class is below sqrt(n), the two methods return identical partitions on at least 90% of the data sets. This is the empirical counterpart of the manuscript's locality-of-the-edge-edit proposition (Section 3.4): with no rare core to retain, the edit is empty.",
+   "evaluated_on": "locality control",
+   "observed": {
+    "control_sets": 85,
+    "identical_partitions": 24,
+    "identical_partition_share": 0.2823529411764706,
+    "control_sets_with_rare_core": 49
+   },
+   "met": false
+  },
+  "H4_loss_mechanism": {
+   "criterion": "Every rare-subset data set with delta ARI below -0.05 retains at least one rare core, as the locality corollaries of Section 3.4 predict: a loss requires a core admitted inside a dense majority region.",
+   "evaluated_on": "rare subset",
+   "observed": {
+    "sets_below_margin": 0,
+    "sets_below_margin_without_rare_core": 0,
+    "violating_data_ids": []
+   },
+   "met": true
+  },
+  "reporting_rule": "All four criteria are reported whether or not they are met. No criterion, no margin, no subset rule and no cohort membership is redefined after the run. The run happens once; the runner refuses to overwrite an existing result file."
+ },
+ "criteria_met": {
+  "H1_rare_recall": false,
+  "H2_noninferiority": true,
+  "H3_locality": false,
+  "H4_loss_mechanism": true
+ }
+}

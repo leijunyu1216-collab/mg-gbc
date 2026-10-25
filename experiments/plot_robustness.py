@@ -1,4 +1,11 @@
-"""Regenerate the paper robustness figure from the current CSV results."""
+"""Regenerate the paper robustness figure from the matched-policy CSV results.
+
+The figure is drawn from results/robustness_matched.csv, the file written by
+experiments/run_robust.py under the matched graph policy (size-ratio guard
+disabled in both methods) that every comparison in the manuscript uses. The
+unmatched results/robustness.csv is left in place as a record and is not
+plotted.
+"""
 
 from pathlib import Path
 
@@ -7,7 +14,7 @@ import pandas as pd
 
 
 ROOT = Path(__file__).resolve().parents[1]
-data = pd.read_csv(ROOT / "results" / "robustness.csv")
+data = pd.read_csv(ROOT / "results" / "robustness_matched.csv")
 noise = data[data["kind"].eq("noise")]
 
 fig, axes = plt.subplots(1, 2, figsize=(7.2, 2.7), sharey=True)
@@ -41,5 +48,6 @@ axes[0].set_ylabel("ARI (mean ± SD, five seeds)")
 axes[1].legend(frameon=False, loc="lower right")
 fig.tight_layout()
 for suffix in (".png", ".pdf"):
-    fig.savefig(ROOT / "results" / f"robustness{suffix}", dpi=220, bbox_inches="tight")
+    fig.savefig(ROOT / "results" / f"robustness_matched{suffix}", dpi=220,
+                bbox_inches="tight")
 plt.close(fig)

@@ -198,6 +198,7 @@ def rare_fragment_edges(
     near_radius_factor: float = 1.5,
     background_closeness_factor: float = 0.5,
     corridor_clearance_factor: float = 0.5,
+    corridor_witnesses: int | None = 3,
 ) -> np.ndarray:
     """Link rare cores that are fragments of one minority cluster.
 
@@ -205,6 +206,14 @@ def rare_fragment_edges(
     They remain similar in density, and either still geometrically local
     after radius shrinkage, or connected by a corridor that stays farther
     from majority balls than from the two cores themselves.
+
+    The corridor is certified against ``corridor_witnesses`` nearest
+    background centres of each endpoint (a constant), which keeps the test
+    at O(1) per candidate pair and the whole layer at O(m^2 d).  Passing
+    ``None`` certifies against every background centre instead, which is
+    the same predicate with an O(m) scan per pair; the two agree whenever
+    the clearing background ball of a pair is one of its endpoints'
+    nearest background neighbours.
 
     The rule is a description of fragmentation, not a second merger test: it
     restores contact that trimming removed, so it applies only to pairs that
@@ -225,6 +234,14 @@ def rare_fragment_edges(
     else:
         iso = dmat[:, non_rare].min(axis=1)
 
+    # Per-ball witness lists: the W nearest background centres, selected in
+    # O(m) per ball, so the corridor test below stays constant-time per pair.
+    witnesses = None
+    if corridor_witnesses is not None and len(non_rare) > 0:
+        w = int(min(max(corridor_witnesses, 1), len(non_rare)))
+        part = np.argpartition(dmat[:, non_rare], w - 1, axis=1)[:, :w]
+        witnesses = non_rare[part]
+
     for a in range(len(ids)):
         for b in range(a + 1, len(ids)):
             i, j = int(ids[a]), int(ids[b])
@@ -235,11 +252,20 @@ def rare_fragment_edges(
                 continue
             near = d <= float(near_radius_factor) * max(rsum, 1e-12)
             closer = d < float(background_closeness_factor) * min(float(iso[i]), float(iso[j]))
+            if not closer:
+                continue
+            if near:
+                edges[i, j] = edges[j, i] = True
+                continue
             mid = 0.5 * (centers[i] + centers[j])
             if len(non_rare) == 0:
                 corridor = True
-            else:
+            elif witnesses is None:
                 d_bg_mid = float(np.linalg.norm(centers[non_rare] - mid, axis=1).min())
+                corridor = d_bg_mid > float(corridor_clearance_factor) * d
+            else:
+                cand = np.unique(np.concatenate([witnesses[i], witnesses[j]]))
+                d_bg_mid = float(np.linalg.norm(centers[cand] - mid, axis=1).min())
                 corridor = d_bg_mid > float(corridor_clearance_factor) * d
             # Geometric proximity alone is not evidence that two rare balls
             # belong to the same cluster.  In particular, two different rare
@@ -247,7 +273,7 @@ def rare_fragment_edges(
             # Require the pair to be mutually closer than either ball is to
             # the background, then use either radius proximity or a clear
             # background-free corridor as supporting evidence.
-            if closer and (near or corridor):
+            if corridor:
                 edges[i, j] = edges[j, i] = True
     return edges
 
@@ -270,6 +296,7 @@ class MGGBC:
         fragment_near_factor: float = 1.5,
         fragment_closeness_factor: float = 0.5,
         fragment_corridor_factor: float = 0.5,
+        fragment_corridor_witnesses: int | None = 3,
         fragment_guard: bool = True,
     ):
         self.k = int(k)
@@ -288,6 +315,13 @@ class MGGBC:
         self.fragment_near_factor = float(fragment_near_factor)
         self.fragment_closeness_factor = float(fragment_closeness_factor)
         self.fragment_corridor_factor = float(fragment_corridor_factor)
+        # The corridor is certified against this many nearest background
+        # centres per endpoint, which keeps the fragment layer at O(m^2 d).
+        # None certifies against every background centre (same predicate,
+        # O(m) scan per candidate pair) and is kept for the equivalence test.
+        self.fragment_corridor_witnesses = (
+            None if fragment_corridor_witnesses is None else int(fragment_corridor_witnesses)
+        )
         # A fragment edge may restore contact that radius reduction destroyed,
         # but it may not overturn a merge the overlap test refused.  The guard
         # can be switched off to ablate the admissibility condition; with it
@@ -360,6 +394,7 @@ class MGGBC:
                 self.fragment_near_factor,
                 self.fragment_closeness_factor,
                 self.fragment_corridor_factor,
+                self.fragment_corridor_witnesses,
             )
             if self.use_fragments
             else np.zeros((len(balls), len(balls)), dtype=bool)
