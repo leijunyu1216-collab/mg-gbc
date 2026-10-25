@@ -1,4 +1,4 @@
-"""One-at-a-time sensitivity of the shipped constants on the paper suite.
+"""One-at-a-time sensitivity of the registered constants on the paper suite.
 
 Every row changes exactly one constant of MGGBC; the remaining five keep
 their defaults.  The comparison is against the default configuration on the

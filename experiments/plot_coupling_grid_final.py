@@ -1,7 +1,7 @@
-"""Figure ``fig:joint``: the joint grid under the shipped fragment rule.
+"""Figure ``fig:joint``: the joint grid under the registered fragment rule.
 
 Reads ``results/coupling_grid_guard_raw.csv`` -- the 315-cell sweep evaluated
-through ``MGGBC`` as shipped, i.e. with the admissibility condition of
+through ``MGGBC`` as registered, i.e. with the admissibility condition of
 Definition (signed edit) in force -- and draws the response surface over all
 31 units (20 UNSW-NB15 v2 replication blocks, ten development sets,
 Covertype-Rare).

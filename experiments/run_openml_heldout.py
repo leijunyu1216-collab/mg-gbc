@@ -63,8 +63,9 @@ def verify_protocol(protocol: dict) -> None:
         if got != str(expected).upper():
             raise RuntimeError(
                 f"{rel} does not match the frozen protocol ({got[:12]} != "
-                f"{str(expected)[:12]}). The cohort was registered against the shipped "
-                "sources; do not score it with a modified model."
+                f"{str(expected)[:12]}). The cohort was registered against the "
+                "source files recorded in it; do not score it with a "
+                "modified model."
             )
 
 

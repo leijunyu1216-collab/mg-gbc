@@ -17,7 +17,7 @@ manuscript's complexity claim and its mechanism story both rest on them.
     centre farther than ``1.5 * d_ij`` from the midpoint of the two cores, three
     times the ``0.5 * d_ij`` clearance the clause asks for (Lemma corridor-lemma in
     the manuscript).  Passing ``fragment_corridor_factor = -1`` makes the clause
-    vacuous, so comparing that configuration against the shipped one tests the
+    vacuous, so comparing that configuration against the registered one tests the
     lemma on real data rather than on the proof alone.  The lemma also says the
     radius-proximity factor ``eta`` cannot matter at any closeness factor up to 1,
     which is the flat response the sensitivity sweep measures over eta in [1, 6].
@@ -58,14 +58,14 @@ OUT = ROOT / "results" / "corridor_witness_equivalence.json"
 KEYS = ["ARI", "NMI", "ACC", "many_to_one_ACC", "rare_recall", "n_clusters"]
 TOL = 1e-12
 
-# The configurations compared on every unit.  "shipped" is the registered default;
+# The configurations compared on every unit.  "registered" is the default;
 # "w1" and "w2" certify against fewer background centres; "exact" replaces the
 # witness certificate by a scan of every background centre; "vacuous" makes the
 # corridor clause always true, which is what removing it does.  Lemma
 # corridor-lemma predicts that all five agree wherever the registered closeness
 # factor is at most 1, so this script is a test of the lemma on real data.
 ARMS = [
-    ("shipped", {}),
+    ("registered", {}),
     ("w1", {"fragment_corridor_witnesses": 1}),
     ("w2", {"fragment_corridor_witnesses": 2}),
     ("exact", {"fragment_corridor_witnesses": None}),
@@ -121,11 +121,11 @@ def fit_arms(model_kwargs: dict, X: np.ndarray) -> dict:
 
 
 def arm_agreement(arms: dict) -> dict:
-    ref = arms["shipped"]["labels"]
+    ref = arms["registered"]["labels"]
     return {
-        "labels_identical_to_shipped": {
+        "labels_identical_to_registered": {
             label: bool(np.array_equal(arms[label]["labels"], ref))
-            for label, _ in ARMS if label != "shipped"
+            for label, _ in ARMS if label != "registered"
         },
         "fragment_edges": {label: arms[label]["frag"] for label, _ in ARMS},
     }
@@ -136,15 +136,15 @@ def rollup(rows: list[dict]) -> tuple[dict, pd.DataFrame]:
     out = {
         "units_checked": len(df),
         "units_where_all_arms_agree": int(
-            sum(all(r["labels_identical_to_shipped"].values()) for r in rows)
+            sum(all(r["labels_identical_to_registered"].values()) for r in rows)
         ),
         "fragment_edges_by_arm": {
             label: int(sum(r["fragment_edges"][label] for r in rows)) for label, _ in ARMS
         },
-        "max_metric_diff_vs_shipped": {
+        "max_metric_diff_vs_registered": {
             label: max(max_abs_diff([r[f"{k}_{label}"] for r in rows],
-                                    [r[f"{k}_shipped"] for r in rows]) for k in KEYS)
-            for label, _ in ARMS if label != "shipped"
+                                    [r[f"{k}_registered"] for r in rows]) for k in KEYS)
+            for label, _ in ARMS if label != "registered"
         },
     }
     return out, df
@@ -167,8 +167,8 @@ def run_tabular() -> dict:
             for key in KEYS:
                 rec[f"{key}_{label}"] = met[key]
         rows.append(rec)
-        print(f"  {name:<22} frag={rec['fragment_edges']['shipped']} "
-              f"all arms identical={all(rec['labels_identical_to_shipped'].values())}", flush=True)
+        print(f"  {name:<22} frag={rec['fragment_edges']['registered']} "
+              f"all arms identical={all(rec['labels_identical_to_registered'].values())}", flush=True)
     ok = [r for r in rows if r["status"] == "ok"]
     summary, _ = rollup(ok)
     summary["per_set"] = rows
@@ -214,7 +214,7 @@ def run_unsw(kind: str) -> dict:
         base_seed = int(v2["sampling"]["block_selection_seed"])
         suffix = ""
     else:
-        # The holdout file is wide: the shipped configuration is the tau_gamma = 0.5
+        # The holdout file is wide: the registered configuration is the tau_gamma = 0.5
         # column set, suffixed _z050.  The untouched holdout is never re-scored at a
         # non-default configuration, so only that column set is read here.
         frozen_csv = ROOT / "results" / "unsw_holdout_blocks_matched.csv"
@@ -250,12 +250,12 @@ def run_unsw(kind: str) -> dict:
 
     summary, df = rollup(rows)
     summary["max_metric_diff_vs_frozen"] = {
-        key: max_abs_diff(df[f"frozen_{key}"], df[f"{key}_shipped"])
+        key: max_abs_diff(df[f"frozen_{key}"], df[f"{key}_registered"])
         for key in KEYS if f"frozen_{key}" in df.columns
     }
     if "frozen_cores" in df.columns:
         summary["max_metric_diff_vs_frozen"]["rare_cores"] = max_abs_diff(
-            df["frozen_cores"], df["cores_shipped"])
+            df["frozen_cores"], df["cores_registered"])
     summary["per_block"] = rows
     return summary
 
@@ -317,7 +317,7 @@ def run_cicids() -> dict:
     summary["fragment_edges_frozen"] = int(df["frozen_frag"].sum())
     summary["windows_below_two_rare_cores"] = int(len(mg) - len(targets))
     summary["max_metric_diff_vs_frozen"] = {
-        key: max_abs_diff(df[f"frozen_{key}"], df[f"{key}_shipped"])
+        key: max_abs_diff(df[f"frozen_{key}"], df[f"{key}_registered"])
         for key in KEYS if f"frozen_{key}" in df.columns
     }
     return summary
@@ -334,13 +334,13 @@ def main() -> None:
     summary: dict = {
         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
         "arms": {
-            "shipped": "the registered default: W = 3 corridor witnesses, clearance factor 0.5",
+            "registered": "the default: W = 3 corridor witnesses, clearance factor 0.5",
             "w1": "the corridor certified against the nearest background centre only",
             "w2": "the corridor certified against the two nearest background centres",
             "exact": "the corridor certified against every background centre (O(m) per pair)",
             "vacuous": "corridor clearance factor -1, i.e. the corridor clause removed",
         },
-        "claim": ("On every unit of every reported cohort the shipped corridor certificate returns "
+        "claim": ("On every unit of every reported cohort the registered corridor certificate returns "
                   "the same partition, the same fragment-edge count and the same metrics as each "
                   "smaller witness count, as the exact full scan, and as a configuration in which "
                   "the corridor clause cannot reject anything, and it reproduces the frozen result "

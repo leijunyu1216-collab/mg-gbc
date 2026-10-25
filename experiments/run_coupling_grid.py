@@ -10,7 +10,7 @@ and nothing else, so for a fixed data unit the ball state (balls, overlap,
 rare cores, densities, centres, radii) is computed once and every grid cell
 re-runs only the fragment rule, the absorption guard, label propagation and
 boundary assignment.  A deterministic subset of cells is re-run through the
-shipped ``MGGBC.fit_predict``; the label sha256 must agree or the run aborts.
+registered ``MGGBC.fit_predict``; the label sha256 must agree or the run aborts.
 Cohorts: the 20 validation blocks of the UNSW-NB15 v2 replication protocol
 (43 features), the ten development sets, and Covertype-Rare (54 features).
 The untouched holdout blocks are never evaluated.
@@ -118,7 +118,7 @@ def label_hash(labels: np.ndarray) -> str:
 def build_state(X: np.ndarray, k: int, tau_gamma: float) -> State:
     """The whole pipeline up to the point where the fragment rule starts.
 
-    This is line-for-line the prefix of ``MGGBC.fit_predict`` with the shipped
+    This is line-for-line the prefix of ``MGGBC.fit_predict`` with the registered
     defaults for everything except ``tau_gamma``.
     """
     X = minmax_scale(np.asarray(X, dtype=float))
@@ -353,7 +353,7 @@ def main() -> None:
                 # The cached tail above leaves out the admissibility
                 # condition, so the reference is the pipeline with that
                 # condition switched off.  run_coupling_grid_final.py runs
-                # the same grid through the shipped pipeline.
+                # the same grid through the default pipeline.
                 ref = MGGBC(k=unit.k, fragment_guard=False,
                             **params).fit_predict(unit.X)
                 if label_hash(ref) != rhash:

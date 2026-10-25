@@ -1,4 +1,4 @@
-"""The 315-cell joint grid evaluated through the shipped pipeline.
+"""The 315-cell joint grid evaluated through the registered pipeline.
 
 Produces the per-cell table behind Fig. (joint).  Every cell of the
 delta x eta x beta grid is evaluated on the 31 units the paper scores: the

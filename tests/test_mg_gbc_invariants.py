@@ -102,7 +102,7 @@ class CorridorVacuityTests(unittest.TestCase):
     ``beta_o <= 1/beta_c - 1/2``, any pair that passes the closeness test
     has its midpoint at least ``(1/beta_c - 1/2) * d`` from every
     background centre, so the corridor test cannot reject it.  At the
-    shipped ``beta_c = beta_o = 0.5`` the required clearance is ``0.5 d``
+    registered ``beta_c = beta_o = 0.5`` the required clearance is ``0.5 d``
     and the available clearance is ``1.5 d``.  These tests check the two
     consequences the paper reports: the witness count is irrelevant, and
     the clause itself is redundant.
@@ -144,8 +144,8 @@ class CorridorVacuityTests(unittest.TestCase):
         gamma = np.array([1.00, 0.95, 0.20])
         rare = np.array([True, True, False])
 
-        at_shipped = rare_fragment_edges(centers, radii, gamma, rare)
-        self.assertFalse(at_shipped[0, 1])
+        at_registered = rare_fragment_edges(centers, radii, gamma, rare)
+        self.assertFalse(at_registered[0, 1])
 
         loose = rare_fragment_edges(centers, radii, gamma, rare,
                                     background_closeness_factor=2.0)

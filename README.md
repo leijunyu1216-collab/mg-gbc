@@ -91,14 +91,14 @@ Scripts with options are shown with the setting used in the paper.
 | `openml_heldout_screen_log.json` | `register_openml_heldout.py --screen-only` | every drawn id, its skip reason, and the admitted cohort |
 | `openml_heldout_sets.csv`, `openml_heldout_summary.json` | `run_openml_heldout.py` | the held-out OpenML cohort, scored once at the frozen defaults |
 
-`verify_corridor_witness_equivalence.py` re-runs the shipped sources over every
+`verify_corridor_witness_equivalence.py` re-runs the frozen source files over every
 reported unit of the two real sources — 20 UNSW-NB15 replication blocks, 20
 UNSW-NB15 holdout blocks and the 396 CIC-IDS2018 windows that admit a candidate
-pair — under five configurations of the fragment rule: the shipped witness count
+pair — under five configurations of the fragment rule: the registered witness count
 `W = 3`, `W = 1`, `W = 2`, the exact full scan, and a corridor factor that
 disables the clause. It reads the frozen result files without modifying them, and
 reports two things. All five configurations agree on every unit, with a metric
-difference of exactly `0.0` from the shipped one. And the shipped sources
+difference of exactly `0.0` from the registered one. And the registered sources
 reproduce the frozen per-block numbers to within `5e-13` on ARI, NMI and rare
 recall and exactly on ACC, many-to-one ACC, cluster count and rare-core count.
 That reproduction is the reason the frozen files stay in `results/` even though
